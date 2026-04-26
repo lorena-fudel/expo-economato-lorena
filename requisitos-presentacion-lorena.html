@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presentación Lorena - Smart Economato</title>
+    <!-- Mis tipografías -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Para que funcione el cronograma -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        /* Mis colores y variables globales */
+        :root {
+            --bg-body:      #f1f5f9;
+            --bg-card:      #ffffff;
+            --bg-header:    rgba(255,255,255,0.88);
+            --text-main:    #0f172a;
+            --text-muted:   #64748b;
+            --primary:      #6d28d9;
+            --primary-light:#ede9fe;
+            --primary-dark: #4c1d95;
+            --border:       #e2e8f0;
+            --accent-bg:    #f8fafc;
+            --modal-bg:     rgba(15,23,42,0.5);
+            --shadow-sm:    0 1px 3px rgba(0,0,0,.07),0 1px 2px rgba(0,0,0,.04);
+            --shadow-md:    0 4px 14px rgba(0,0,0,.08),0 2px 4px rgba(0,0,0,.04);
+            --shadow-lg:    0 10px 30px rgba(0,0,0,.10),0 4px 8px rgba(0,0,0,.05);
+            --shadow-xl:    0 20px 48px rgba(0,0,0,.12),0 8px 16px rgba(0,0,0,.06);
+            --radius-sm: 8px; --radius-md: 14px; --radius-lg: 20px;
+            --ease: all 0.25s cubic-bezier(0.4,0,0.2,1);
+        }
+        [data-theme="dark"] {
+            --bg-body:#0f172a; --bg-card:#1e293b; --bg-header:rgba(30,41,59,0.92);
+            --text-main:#f1f5f9; --text-muted:#94a3b8;
+            --primary:#a78bfa; --primary-light:#1e1b4b; --primary-dark:#c4b5fd;
+            --border:#334155; --accent-bg:#0f172a; --modal-bg:rgba(0,0,0,0.7);
+            --shadow-sm:0 1px 3px rgba(0,0,0,.3); --shadow-md:0 4px 14px rgba(0,0,0,.4);
+            --shadow-lg:0 10px 30px rgba(0,0,0,.5); --shadow-xl:0 20px 48px rgba(0,0,0,.6);
+        }
+        [data-theme="dark"] .mermaid{background:#f8fafc;border-radius:var(--radius-md);padding:15px;}
+        [data-theme="dark"] .modal-gantt-wrapper{background:#ffffff;border-radius:var(--radius-md);}
+
+        /* Ajustes básicos de estilos */
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+        body{font-family:'Inter',system-ui,sans-serif;background:var(--bg-body);color:var(--text-main);line-height:1.7;-webkit-font-smoothing:antialiased;transition:background .35s ease,color .35s ease;}
+        
+        /* Fondo sutil: Circuitos + Cocina combinados */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: 
+                url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1920&q=80'), /* Circuitos */
+                url('https://images.unsplash.com/photo-1556910103-1c02745a872f?auto=format&fit=crop&w=1920&q=80'); /* Cocina profesional */
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: overlay;
+            opacity: 0.12;
+            z-index: -1;
+            pointer-events: none;
+            filter: grayscale(70%) contrast(1.5);
+            transition: opacity 0.35s ease, filter 0.35s ease;
+        }
+        [data-theme="dark"] body::before {
+            opacity: 0.15;
+            filter: grayscale(100%) invert(100%) contrast(1.3);
+            mix-blend-mode: screen;
+        }
+
+        p{color:var(--text-muted);margin-bottom:.75rem;} p:last-child{margin-bottom:0;}
+        strong{color:var(--text-main);}
+        code{background:var(--primary-light);color:var(--primary-dark);font-size:.82em;padding:2px 7px;border-radius:5px;font-family:'Fira Code',monospace;}
+
+        /* Barra de navegación */
+        .navbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:var(--bg-header);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000;transition:background .35s ease;gap:.75rem;}
+        .tabs{display:flex;gap:3px;overflow-x:auto;scrollbar-width:none;flex:1;padding:5px 0;align-items:center;}
+        .tabs::-webkit-scrollbar{display:none;}
+        .tab-btn{background:transparent;color:var(--text-muted);border:none;padding:6px 13px;border-radius:var(--radius-sm);cursor:pointer;font-weight:500;font-size:.83rem;font-family:inherit;white-space:nowrap;transition:var(--ease);letter-spacing:.01em;}
+        .tab-btn:hover{color:var(--primary);background:var(--primary-light);transform:translateY(-2px);box-shadow:0 4px 12px rgba(109,40,217,0.12);}
+        .tab-btn.active{background:var(--primary);color:#fff;font-weight:700;box-shadow:0 4px 15px rgba(109,40,217,.40);transform:translateY(-1px);border:1px solid rgba(255,255,255,0.2);}
+        .tab-btn.active:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(109,40,217,.50);}
+        .theme-toggle{background:var(--bg-card);color:var(--text-main);border:1px solid var(--border);border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;width:40px;height:36px;padding:0;flex-shrink:0;transition:var(--ease);box-shadow:var(--shadow-sm);}
+        .theme-toggle:hover{background:var(--primary-light);color:var(--primary);border-color:var(--primary);transform:scale(1.15) rotate(8deg);box-shadow:var(--shadow-md);}
+        #themeBtn svg{display:block;pointer-events:none;}
+
+        /* Estructura general */
+        .content-container{max-width:1100px;margin:2rem auto;padding:0 1.25rem;}
+        .tab-content{display:none;opacity:0;transform:translateY(16px);transition:opacity .4s ease,transform .4s ease;}
+        .tab-content.active{display:block;opacity:1;transform:translateY(0);}
+
+        /* Mi sección de perfil */
+        .profile-section{display:flex;gap:2rem;background:var(--bg-card);padding:2.25rem;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;align-items:flex-start;box-shadow:var(--shadow-md);transition:var(--ease);}
+        .profile-section:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+        .profile-photo{width:200px;height:200px;flex-shrink:0;border-radius:50%;border:3px dashed var(--border);background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;text-align:center;padding:1rem;overflow:hidden;transition:var(--ease);}
+        .profile-photo:hover{border-color:var(--primary);}
+        .profile-info h1{font-size:2.6rem;font-weight:700;color:var(--primary);letter-spacing:-.03em;line-height:1.15;margin-bottom:.4rem;}
+        .profile-info h2{font-size:.9rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);}
+
+        /* Cronograma de trabajo */
+        .gantt-section{background:var(--bg-card);padding:2rem 2.25rem;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;box-shadow:var(--shadow-md);text-align:center;transition:var(--ease);}
+        .gantt-section:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+        .gantt-section h2{font-size:1.35rem;font-weight:700;color:var(--primary);margin-bottom:.5rem;}
+        .modal-gantt-wrapper{margin-top:1.25rem;overflow-x:auto;background:#fff;border-radius:var(--radius-md);border:1px solid var(--border);padding:1rem;}
+
+        /* Mis botones */
+        .btn-primary{display:inline-flex;align-items:center;gap:7px;background:var(--primary);color:#fff;border:none;border-radius:var(--radius-sm);padding:10px 22px;font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;transition:var(--ease);box-shadow:0 2px 8px rgba(109,40,217,.28);letter-spacing:.02em;}
+        .btn-primary:hover{background:var(--primary-dark);transform:translateY(-3px) scale(1.02);box-shadow:0 8px 25px rgba(109,40,217,.45);}
+
+        /* Fotos del proyecto */
+        .app-screenshot{border-radius:var(--radius-md);border:1px solid var(--border);box-shadow:var(--shadow-md);overflow:hidden;aspect-ratio:16/10;position:relative;transition:var(--ease);}
+        .app-screenshot:hover{transform:translateY(-4px) scale(1.01);box-shadow:var(--shadow-xl);}
+        .app-screenshot img{width:100%;height:100%;object-fit:cover;display:block;}
+        .screenshot-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--primary-light);color:var(--primary);font-size:.8rem;font-weight:600;text-align:center;padding:1rem;}
+        .screenshot-placeholder span:first-child{font-size:2.2rem;}
+        .screenshot-placeholder small{color:var(--text-muted);font-size:.7rem;font-weight:400;}
+
+        /* Mis agradecimientos */
+        .thanks-section{background:linear-gradient(135deg,var(--primary-light) 0%,var(--bg-card) 100%);padding:2.5rem;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;text-align:center;box-shadow:var(--shadow-md);transition:var(--ease);}
+        .thanks-section:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+        .thanks-section h2{font-size:1.6rem;font-weight:700;color:var(--primary);margin-bottom:1rem;}
+        .thanks-photo{width:100%;max-width:580px;height:260px;background:var(--bg-card);border:2px dashed var(--primary);border-radius:var(--radius-md);margin:1.25rem auto;display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:600;font-size:.95rem;transition:var(--ease);}
+        .thanks-photo:hover{background:var(--primary-light);}
+
+        /* Ventanas modales */
+        .modal-overlay{position:fixed;inset:0;background:var(--modal-bg);display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;}
+        .modal-overlay.active{opacity:1;visibility:visible;}
+        .modal-content{background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:2rem;width:95%;max-width:1200px;max-height:90vh;overflow-y:auto;position:relative;transform:scale(.92) translateY(12px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-xl);}
+        .modal-overlay.active .modal-content{transform:scale(1) translateY(0);}
+        .close-modal{position:absolute;top:14px;right:18px;background:var(--accent-bg);border:1px solid var(--border);border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:var(--ease);}
+        .close-modal:hover{background:#fee2e2;color:#ef4444;border-color:#fca5a5;transform:scale(1.2) rotate(90deg);}
+
+        /* Estilo de los informes técnicos */
+        .report-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2.25rem;margin-bottom:1.5rem;box-shadow:var(--shadow-md);transition:var(--ease);}
+        .report-card h1{font-size:1.7rem;font-weight:700;color:var(--primary);text-align:center;padding-bottom:1rem;margin-bottom:1.75rem;border-bottom:2px solid var(--border);letter-spacing:-.02em;}
+        .report-card h3{font-size:.97rem;font-weight:600;color:var(--text-main);margin-top:1.75rem;margin-bottom:.5rem;display:flex;align-items:center;gap:10px;}
+        .report-card h3::before{content:"";display:inline-block;width:4px;height:18px;background:linear-gradient(180deg,var(--primary),var(--primary-dark));border-radius:99px;flex-shrink:0;}
+        .item-box{background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;margin-bottom:.6rem;transition:var(--ease);}
+        .item-box:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--primary);}
+        .tag{display:inline-block;background:var(--primary);color:#fff;font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.07em;margin-right:8px;}
+
+        /* Listado de tecnologías */
+        .stack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin-top:1rem;margin-bottom:.5rem;}
+        .stack-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem .75rem;display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;box-shadow:var(--shadow-sm);transition:var(--ease);}
+        .stack-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-xl);border-color:var(--primary);}
+        .stack-card img{width:46px;height:46px;object-fit:contain;}
+        .stack-card-name{font-size:.78rem;font-weight:600;color:var(--text-main);}
+        .stack-card-role{font-size:.69rem;color:var(--text-muted);}
+        .stack-section-title{display:inline-flex;align-items:center;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);background:var(--primary-light);border-radius:99px;padding:4px 14px;margin:1.5rem 0 .75rem;}
+
+        /* Animaciones para que quede bonito */
+        @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+        .report-card h1,.profile-info h1,.gantt-section h2,.thanks-section h2{animation:fadeUp .45s ease both;}
+        .report-card h3{animation:fadeUp .4s ease both;}
+
+        
+        /* Espacios para las fotos de evidencia */
+        .evidence-placeholder {
+            margin-top: 1rem;
+            padding: .8rem;
+            background: rgba(255,255,255,0.5);
+            border: 1px dashed var(--border);
+            border-radius: var(--radius-sm);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: .75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--ease);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        [data-theme="dark"] .evidence-placeholder { background: rgba(0,0,0,0.2); }
+        .evidence-placeholder:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .evidence-img {
+            margin-top: 1rem;
+            width: 100%;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* El menú lateral que sale en el móvil */
+        /* Desktop: el drawer es una barra horizontal normal */
+        .tabs{
+            display:flex;
+            gap:3px;
+            overflow-x:auto;
+            scrollbar-width:none;
+            flex:1;
+        }
+        .tabs::-webkit-scrollbar{display:none;}
+
+        /* === HAMBURGUESA === */
+        .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;background:transparent;border:none;cursor:pointer;padding:6px;border-radius:var(--radius-sm);transition:var(--ease);flex-shrink:0;}
+        .hamburger:hover{background:var(--primary-light);}
+        .hamburger span{display:block;width:22px;height:2px;background:var(--text-main);border-radius:2px;transition:var(--ease);transform-origin:center;}
+        .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+        .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+        .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+        /* === OVERLAY === */
+        .nav-overlay{display:none;position:fixed;inset:0;z-index:998;background:rgba(0,0,0,.4);}
+        .nav-overlay.open{display:block;}
+
+        /* === DRAWER LABEL === */
+        .drawer-label{display:none;}
+
+        /* Ocultar drawer en desktop — solo visible en móvil al abrir */
+        #navTabs{display:none;}
+
+        /* === RESPONSIVE === */
+        @media(max-width:768px){
+            .profile-section{flex-direction:column;align-items:center;text-align:center;}
+            .content-container{margin:1.25rem auto;}
+            .stack-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
+            .report-card,.gantt-section,.profile-section{padding:1.5rem;}
+            .navbar{padding:.65rem 1rem;gap:.5rem;}
+
+            /* Ocultar tabs del navbar en móvil */
+            .tabs{
+                display:flex !important;
+                flex-direction:column;
+                position:fixed;
+                top:0;
+                left:0;
+                width:min(280px,85vw);
+                height:100vh;
+                background:var(--bg-card);
+                border-right:1px solid var(--border);
+                box-shadow:4px 0 24px rgba(0,0,0,.18);
+                z-index:9999;
+                padding:4.5rem 1rem 2rem;
+                gap:4px;
+                overflow-y:auto;
+                transform:translateX(-110%);
+                transition:transform .3s cubic-bezier(0.4,0,0.2,1);
+                /* Importante: NADA de backdrop-filter ni filter aquí */
+            }
+            .tabs.open{transform:translateX(0) !important;}
+
+            /* Ocultar el contenedor de tabs del nav en el nav mismo */
+            nav .tabs-desktop{display:none;}
+
+            .hamburger{display:flex;}
+
+            .tab-btn{
+                width:100%;
+                text-align:left;
+                padding:10px 14px;
+                font-size:.9rem;
+                border-radius:var(--radius-sm);
+            }
+
+            .drawer-label{
+                display:block;
+                font-size:.68rem;
+                font-weight:700;
+                text-transform:uppercase;
+                letter-spacing:.1em;
+                color:var(--text-muted);
+                padding:1rem 14px .3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo oscuro cuando se abre el menú en móvil -->
+    <div class="nav-overlay" id="navOverlay" onclick="closeMenu()"></div>
+
+    <!-- El menú lateral -->
+    <div class="tabs" id="navTabs">
+        <span class="drawer-label">Navegación</span>
+        <button class="tab-btn active" onclick="openTab('main', this)">Página Principal</button>
+        <button class="tab-btn" onclick="openTab('informe1', this)">Primeras Fases</button>
+        <button class="tab-btn" onclick="openTab('stack', this)">Stack Tech</button>
+        <button class="tab-btn" onclick="openTab('informe2', this)">Fase Desarrollo</button>
+        <button class="tab-btn" onclick="openTab('informe3', this)">Viabilidad V.1</button>
+        <button class="tab-btn" onclick="openTab('informe4', this)">Accesibilidad</button>
+        <button class="tab-btn" onclick="openTab('informe5', this)">UX / UI</button>
+        <button class="tab-btn" onclick="openTab('informe6', this)">Agradecimientos</button>
+    </div>
+
+    <nav class="navbar">
+        <!-- Hamburguesa (solo móvil) -->
+        <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir menú" aria-expanded="false">
+            <span></span><span></span><span></span>
+        </button>
+
+        <!-- Tabs visibles en desktop (ocultos en móvil por CSS) -->
+        <div class="tabs" id="navTabsDesktop" style="flex:1">
+            <button class="tab-btn active" onclick="openTab('main', this)">Página Principal</button>
+            <button class="tab-btn" onclick="openTab('informe1', this)">Primeras Fases</button>
+            <button class="tab-btn" onclick="openTab('stack', this)">Stack Tech</button>
+            <button class="tab-btn" onclick="openTab('informe2', this)">Fase Desarrollo</button>
+            <button class="tab-btn" onclick="openTab('informe3', this)">Viabilidad V.1</button>
+            <button class="tab-btn" onclick="openTab('informe4', this)">Accesibilidad</button>
+            <button class="tab-btn" onclick="openTab('informe5', this)">UX / UI</button>
+            <button class="tab-btn" onclick="openTab('informe6', this)">Agradecimientos</button>
+        </div>
+
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" aria-label="Cambiar tema">
+            <!-- SOL (modo claro) -->
+            <svg id="icon-sun" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/>
+                <line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+                <line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/><line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+            </svg>
+            <!-- LUNA (modo oscuro) -->
+            <svg id="icon-moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+        </button>
+    </nav>
+
+    <div class="content-container">
+        
+        <!-- ==============================
+             PÁGINA PRINCIPAL
+             ============================== -->
+        <div id="main" class="tab-content active">
+            
+            <div class="profile-section">
+                <div class="profile-photo">
+                    [Hueco para foto] <br> Sube tu foto aquí
+                </div>
+                <div class="profile-info">
+                    <h1>Lorena</h1>
+                    <h2>Mi Experiencia</h2>
+                    <p>Vengo del mundo laboral, donde he trabajado en equipos multidisciplinares; ahí conocí el mundo del desarrollo y la informática. En los últimos tiempos he querido formarme en este sector ya que desde siempre me ha encantado la informática.</p>
+                    <p>Cuando empecé en 2024 esta formación me sentí en un mundo completamente abstracto donde no entendía NADA. He ido adquiriendo conocimientos e implementándolos en proyectos personales y formativos como este.</p>
+                    <p>Quiero seguir en este mundo, he descubierto que me encanta y quiero llegar a entenderlo "DEL TODO :)". Mi conclusión es que hay mucho mundo informático que aprender y seguiré en el camino.</p>
+                </div>
+            </div>
+
+            <div class="gantt-section">
+                <h2>Cronograma de Trabajo (Oct 2025 - Abr 2026)</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Visualiza todas las fases del proyecto desde la coordinación inicial hasta el desarrollo de la V.1.</p>
+                
+                <div class="modal-gantt-wrapper" style="margin-bottom: 20px;">
+                    <div class="mermaid">
+                        %%{init:{'theme':'default','gantt':{'leftPadding':5}}}%%
+                        gantt
+                            dateFormat  YYYY-MM-DD
+                            axisFormat  %b '%y
+
+                            Coordinación e investigación      :2025-10-01, 2025-12-31
+                            Pruebas de estilos                :2025-10-01, 2025-12-31
+                            Reuniones con cliente             :2025-10-01, 2025-12-31
+                            Mockups y estilos                 :2025-10-01, 2025-12-31
+
+                            Desarrollo PMV V.beta             :2026-01-01, 2026-02-28
+                            Ajustes con el cliente            :2026-01-01, 2026-02-28
+                            Primeras impresiones              :2026-01-01, 2026-02-28
+
+                            Desarrollo completo               :2026-03-01, 2026-04-30
+                            Pruebas UX/UI                     :2026-03-01, 2026-04-30
+                            Preparacion de la presentacion & exposicion :milestone, 2026-04-26, 1d
+
+                            Documentacion                     :2025-10-01, 2026-04-30
+                    </div>
+                </div>
+
+                <button class="btn-primary" onclick="openModal()">Abrir Diagrama de Gantt</button>
+            </div>
+
+            <!-- ====== CAPTURAS DEL INVENTARIO REAL ====== -->
+            <div class="gantt-section" style="text-align:left;">
+                <h2 style="text-align:center;">El Sistema en Acción</h2>
+                <p style="color:var(--text-muted); text-align:center; margin-bottom:1.5rem;">Capturas reales del inventario funcionando en producción</p>
+                <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
+
+                    <div class="app-screenshot">
+                        <!-- Sube tu imagen a MIOS/imagenes/ y cambia el src -->
+                        <img src="imagenes/captura-1.jpg" alt="Captura inventario 1"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="screenshot-placeholder">
+                            <span>📷</span>
+                            <span>captura-1.jpg</span>
+                            <small>Sube en MIOS/imagenes/</small>
+                        </div>
+                    </div>
+
+                    <div class="app-screenshot">
+                        <img src="imagenes/captura-2.jpg" alt="Captura inventario 2"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="screenshot-placeholder">
+                            <span>📷</span>
+                            <span>captura-2.jpg</span>
+                            <small>Sube en MIOS/imagenes/</small>
+                        </div>
+                    </div>
+
+                    <div class="app-screenshot">
+                        <img src="imagenes/captura-3.jpg" alt="Captura inventario 3"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="screenshot-placeholder">
+                            <span>📷</span>
+                            <span>captura-3.jpg</span>
+                            <small>Sube en MIOS/imagenes/</small>
+                        </div>
+                    </div>
+
+                    <div class="app-screenshot">
+                        <img src="imagenes/captura-4.jpg" alt="Captura inventario 4"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="screenshot-placeholder">
+                            <span>📷</span>
+                            <span>captura-4.jpg</span>
+                            <small>Sube en MIOS/imagenes/</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 1: PRIMERAS FASES
+             ============================== -->
+        <div id="informe1" class="tab-content">
+            <div class="report-card">
+                <h1>Informe 1: Primeras Fases</h1>
+
+                <h3>1. Definición del problema y alcance</h3>
+                <div class="item-box">
+                    <p><span class="tag">¿Qué quiere el cliente?</span>El cliente CIFP Virgen de Candelaria necesita que la aplicación Smart Economato digitalice la gestión de su economato escolar para simular de forma realista los procesos de aprovisionamiento y servicio del mundo laboral. Su principal objetivo es que la plataforma involucre al alumnado en la planificación y control de recursos alimentarios, promoviendo la trazabilidad de los productos, el consumo responsable y la economía circular. Para lograrlo, requieren que el entorno digital incluya funcionalidades clave como el control de la recepción de mercancía, la distribución interna, el registro de bajas (por rotura o deterioro) y un inventario permanente. Adicionalmente, exigen que la aplicación disponga de herramientas exclusivas para el profesorado, las cuales deben permitir la gestión de pedidos internos, la creación de escandallos (fichas técnicas completas con valoración monetaria, alérgenos y elaboración) y el cálculo preciso de los rendimientos y mermas de las materias primas manipuladas.</p>
+                    
+                </div>
+
+                <h3>2. Investigación y búsqueda de información</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Se aplicó investigación técnica avanzada para seleccionar un stack de alto rendimiento y bajo consumo (Green IT), desechando arquitecturas tradicionales en favor de Virtual Threads y Zoneless PWA.</p>
+                    <p><span class="tag">Dónde</span> Reflejado en la elección de <strong>Java 25</strong>, <strong>Angular 21 (Zoneless)</strong> y <strong>Kafka KRaft</strong> (sin Zookeeper), visible en el <code>pom.xml</code>, <code>package.json</code> y <code>docker-compose.yml</code>.</p>
+                </div>
+
+                <h3>3. Investigación aplicada y decisiones justificadas</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Se adoptó una arquitectura de "Servicios Satélite Políglotas". En lugar de forzar a Java a procesar IA o series temporales, se usan herramientas específicas para cada carga de trabajo.</p>
+                    <p><span class="tag">Dónde</span> Creación del <code>mcp-service</code> (NestJS) para la IA y el <code>predictor-service</code> (Python/FastAPI) para el análisis de datos de series temporales.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>4. Innovación, mejoras sobre lo típico</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Implementación de predicción algorítmica de demanda (Prophet), un chat con IA experta ("Chef Pío" vía SSE), trazabilidad inmutable mediante <em>Blockchain/Ledger</em>, y notificaciones en tiempo real.</p>
+                    <p><span class="tag">Dónde</span> En el backend dentro de la capa <code>domain</code> (Ledger con HMAC), en el <code>predictor-service</code>, y en el frontend a través del <code>ai-chat.service.ts</code> y el <code>websocket.service.ts</code>.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>5. Emprendimiento/viabilidad</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Infraestructura optimizada para hardware modesto (4GB RAM) y un instalador interactivo <code>install.ps1</code> que reduce a cero la fricción comercial del despliegue en clientes finales.</p>
+                    <p><span class="tag">Dónde</span> Límites de recursos (<code>limits: memory</code>) definidos estrictamente en el <code>docker-compose.yml</code> y lógica de autoconfiguración en <code>install.ps1</code>.</p>
+                   
+                </div>
+
+                <h3>6. Transacción/concurrencia</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Patrón CQRS básico separando bases de datos de lectura y escritura para soportar concurrencia masiva en inventario.</p>
+                    <p><span class="tag">Dónde</span> En el <code>docker-compose.yml</code> (servicios <code>postgres</code> y <code>postgres-replica</code>) y en la configuración de Spring Boot (<code>DB_WRITER_URL</code> y <code>DB_READER_URL</code>).</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>7. Frontend / Estructura</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> PWA de última generación usando "Standalone Components", Lazy Loading y detección de cambios sin Zone.js (Zoneless).</p>
+                    <p><span class="tag">Dónde</span> Estructura modular estricta en el frontend: <code>src/app/core/</code>, <code>src/app/features/</code> y <code>src/app/shared/</code>.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>8. Frontend UX/UI</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Diseño reactivo con modo oscuro/claro nativo, animaciones entre rutas, PWA instalable e internacionalización (ngx-translate).</p>
+                    <p><span class="tag">Dónde</span> Gestión de tokens semánticos en <code>styles.css</code>, transiciones en <code>route-animations.ts</code>, y servicios como <code>theme.service.ts</code> y <code>language.service.ts</code>.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>9. Accesibilidad y responsive</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Componentes de interfaz flexibles que se adaptan desde pantallas táctiles de cocina (tablets) hasta paneles de administración en monitores grandes.</p>
+                    <p><span class="tag">Dónde</span> Diseño <em>mobile-first</em> en los archivos CSS de la capa <code>features/general/</code> y componentes fluidos en <code>shared/components/layout/</code>.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>10. Consumo de API/estado</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Gestión centralizada de peticiones HTTP, sincronización offline y reactividad con RxJS.</p>
+                    <p><span class="tag">Dónde</span> En la carpeta <code>src/app/core/interceptors/</code>, destacando el <code>offline-sync.interceptor.ts</code> y el <code>errorHandling.interceptor.ts</code>.</p>
+                    
+                </div>
+
+                <h3>11. Calidad del código</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Separación de responsabilidades con Arquitectura Hexagonal en backend y servicios <em>Singleton</em> puramente reactivos en frontend.</p>
+                    <p><span class="tag">Dónde</span> Backend estructurado en <code>domain/</code>, <code>application/</code> e <code>infrastructure/</code>. Frontend regido por convenciones estrictas en <code>angular.json</code> y <code>tsconfig.json</code>.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>12. Pruebas</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Cobertura de pruebas unitarias y de integración utilizando bases de datos efímeras en contenedores para garantizar realismo.</p>
+                    <p><span class="tag">Dónde</span> Uso de <strong>Vitest</strong> en el frontend (<code>ng test</code>) y <strong>JUnit 5 + Testcontainers + JaCoCo</strong> en el backend (<code>mvn test</code>).</p>
+                    
+                </div>
+
+                <h3>13. Documentación técnica</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Documentación viva y autogenerada de la API interactiva, más diagramas de arquitectura.</p>
+                    <p><span class="tag">Dónde</span> Interfaces disponibles en <code>/scalar</code> y <code>/v3/api-docs</code>. READMEs con diagramas <em>Mermaid</em> integrados en la raíz de ambos proyectos.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+
+                <h3>14. Infraestructura y despliegues</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Despliegue reproducible y seguro tras un Reverse Proxy (Nginx) y orquestación integral mediante Docker Compose, inyectando secretos en tiempo de ejecución.</p>
+                    <p><span class="tag">Dónde</span> Archivo <code>.env</code> autogenerado, <code>nginx/reverse-proxy.conf</code>, <code>Dockerfile</code> multi-stage en front y back.</p>
+                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             STACK TECNOLÓGICO
+             ============================== -->
+        <div id="stack" class="tab-content">
+            <div class="report-card">
+                <h1>Stack Tecnológico</h1>
+
+                <div class="stack-section-title">Frontend</div>
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/angularjs/angularjs-original.svg" alt="Angular">
+                        <div class="stack-card-name">Angular 21</div>
+                        <div class="stack-card-role">PWA · Zoneless</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" alt="TypeScript">
+                        <div class="stack-card-name">TypeScript</div>
+                        <div class="stack-card-role">Tipado estricto</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rxjs/rxjs-original.svg" alt="RxJS">
+                        <div class="stack-card-name">RxJS</div>
+                        <div class="stack-card-role">Reactividad</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                        <div class="stack-card-name">CSS / SCSS</div>
+                        <div class="stack-card-role">Design Tokens</div>
+                    </div>
+                </div>
+
+                <div class="stack-section-title">Backend Principal</div>
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                        <div class="stack-card-name">Java 25</div>
+                        <div class="stack-card-role">Virtual Threads</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" alt="Spring Boot">
+                        <div class="stack-card-name">Spring Boot</div>
+                        <div class="stack-card-role">Arq. Hexagonal</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
+                        <div class="stack-card-name">PostgreSQL</div>
+                        <div class="stack-card-role">CQRS (R/W)</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis">
+                        <div class="stack-card-name">Redis</div>
+                        <div class="stack-card-role">JWT Blacklist</div>
+                    </div>
+                </div>
+
+                <div class="stack-section-title">Servicios Satélite</div>
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" alt="NestJS">
+                        <div class="stack-card-name">NestJS</div>
+                        <div class="stack-card-role">Servicio IA (MCP)</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        <div class="stack-card-name">Python / FastAPI</div>
+                        <div class="stack-card-role">Predicciones Prophet</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" alt="Kafka">
+                        <div class="stack-card-name">Kafka KRaft</div>
+                        <div class="stack-card-role">Mensajería Async</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" alt="SQLite">
+                        <div class="stack-card-name">SQLite</div>
+                        <div class="stack-card-role">Outbox Pattern</div>
+                    </div>
+                </div>
+
+                <div class="stack-section-title">Infraestructura & DevOps</div>
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                        <div class="stack-card-name">Docker</div>
+                        <div class="stack-card-role">Compose + ZGC</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" alt="Nginx">
+                        <div class="stack-card-name">Nginx</div>
+                        <div class="stack-card-role">Reverse Proxy</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg" alt="Prometheus">
+                        <div class="stack-card-name">Prometheus</div>
+                        <div class="stack-card-role">Monitoreo</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                        <div class="stack-card-name">Git / GitHub</div>
+                        <div class="stack-card-role">Control versiones</div>
+                    </div>
+                </div>
+
+                <div class="stack-section-title">Seguridad & Calidad</div>
+                <div class="stack-grid">
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/junit/junit-original.svg" alt="JUnit">
+                        <div class="stack-card-name">JUnit 5</div>
+                        <div class="stack-card-role">Tests Backend</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven">
+                        <div class="stack-card-name">Maven + JaCoCo</div>
+                        <div class="stack-card-role">Build + Cobertura</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" alt="npm">
+                        <div class="stack-card-name">npm / Vitest</div>
+                        <div class="stack-card-role">Tests Frontend</div>
+                    </div>
+                    <div class="stack-card">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/powershell/powershell-original.svg" alt="PowerShell">
+                        <div class="stack-card-name">PowerShell</div>
+                        <div class="stack-card-role">Instalador auto</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 2: FASE DE DESARROLLO
+             ============================== -->
+        <div id="informe2" class="tab-content">
+            <div class="report-card">
+                <h1>Informe 2: Fase de Desarrollo</h1>
+
+                <h3>1. Arquitectura (Capas, modularidad y acoplamiento)</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Se utilizó el patrón de <strong>Arquitectura Hexagonal (Ports & Adapters)</strong> para crear un núcleo de negocio totalmente agnóstico e independiente de frameworks tecnológicos.</p>
+                    <p><span class="tag">Dónde</span> Backend monolito ubicado en <code>inventory-service/src/main/java/com/economato/inventory/</code> separado estrictamente en <code>domain</code> (núcleo), <code>application</code> (puertos) e <code>infrastructure</code> (adaptadores in/out).</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>2. Patrones y diseño</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Empleo de CQRS (lectura/escritura separada), Event-Driven Architecture (comunicación asíncrona), Patrón Outbox y Circuit Breakers.</p>
+                    <p><span class="tag">Dónde</span> 
+                        <br>- <em>CQRS</em>: Bases de datos primaria y réplica.
+                        <br>- <em>Event-Driven</em>: Integración con Kafka (<code>infrastructure/adapter/in/messaging</code> y <code>out/messaging</code>).
+                        <br>- <em>Outbox</em>: Base de datos SQLite local en el <code>predictor-service</code>.
+                        <br>- <em>Resiliencia</em>: Resilience4j inyectado en llamadas a dependencias.
+                    </p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>3. Modelado del dominio</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Las entidades (<code>Product</code>, <code>Recipe</code>, <code>Order</code>) son puras. No tienen dependencias de JPA u ORMs. Las reglas de negocio (mermas, fechas FEFO, alérgenos) se procesan estrictamente en este nivel.</p>
+                    <p><span class="tag">Dónde</span> En la capa <code>domain/model/</code>. Todo modelo de persistencia JPA reside exclusivamente en la capa <code>infrastructure</code>.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>4. API (REST, versionado, contratos)</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Diseño RESTful maduro, contratos bien definidos mediante DTOs y mapeos bidireccionales, extendido con protocolos modernos para requerimientos específicos (SSE y WebSockets).</p>
+                    <p><span class="tag">Dónde</span> Controladores ubicados en <code>infrastructure/adapter/in/web/</code>. Conversión gestionada por MapStruct (<code>application/mapper/</code>). Documentación autogenerada por SpringDoc OpenAPI.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>5. Seguridad y Autenticación</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Sistema híbrido. Autenticación robusta (JWT) con capa adicional de revocación (Blacklist en Redis) para invalidar sesiones de forma inmediata. Rotación obligatoria de contraseña inicial.</p>
+                    <p><span class="tag">Dónde</span> Inyección criptográfica (<code>JWT_SECRET</code>) desde el <code>.env</code>. Caché de invalidación en <code>redis:7-alpine</code>. Interceptor <code>auth.interceptor.ts</code> inyectando <em>Bearer tokens</em> en el frontend.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>6. Autorización y Roles</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Principio de mínimo privilegio con seguridad dual. Las vistas se ocultan en el front y se deniegan a nivel de controlador de backend.</p>
+                    <p><span class="tag">Dónde</span> Frontend (<code>role.guard.ts</code>) evalúa roles (<code>ADMIN</code>, <code>CHEF</code>, <code>ELEVATED</code>, <code>USER</code>). Backend valida con anotaciones <code>@PreAuthorize("hasRole('ADMIN')")</code> en los endpoints.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>7. Validación de datos backend</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Validación preventiva y compleja en la capa de frontera (Application / DTOs), con mensajes limpios que el frontend puede traducir.</p>
+                    <p><span class="tag">Dónde</span> Anotaciones de Jakarta Validation (<code>@NotNull</code>, <code>@Size</code>, etc.) en clases dentro de <code>application/dto/</code>.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>8. Gestión de errores</h3>
+                <div class="item-box">
+                    <p><span class="tag">Cómo</span> Interceptación global de excepciones transformándolas en respuestas estándar (Problem Details RFC 7807), ocultando trazas de pila (stacktraces) por seguridad.</p>
+                    <p><span class="tag">Dónde</span> Clase anotada con <code>@ControllerAdvice</code> (o <code>GlobalExceptionHandler</code>) en la capa web del backend. En front: <code>errorHandling.interceptor.ts</code>.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 3: VIABILIDAD V.1
+             ============================== -->
+        <div id="informe3" class="tab-content">
+            <div class="report-card">
+                <h1>Características y Viabilidad - V.1</h1>
+
+                <h3>1. La Idea Inicial: Solución Digital de Inventario</h3>
+                <div class="item-box">
+                    <p>El requerimiento principal era digitalizar la entrada y salida de mercancía. Sin embargo, la aplicación evolucionó hasta convertirse en un ecosistema completo para escuelas culinarias que no solo registra stock, sino que predice, asiste y audita todo el flujo de la cocina.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>2. Scanner para recepción de mercancías</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Implementado en el frontend usando la librería <code>@zxing/browser</code> y <code>@zxing/library</code>. Se encuentra en el módulo <code>src/app/features/general/barcode-scanner/</code>. Permite usar la cámara del dispositivo para escanear códigos de barras e identificar productos al instante.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>3. Controlador del stock</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Gestionado centralmente por el <code>inventory-service</code> (backend Java) utilizando principios FEFO. En el frontend, la interfaz reside en <code>src/app/features/admin/stock-management/</code>.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>4. Pesaje de productos (Recepción)</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Integrado de manera ágil en el módulo de recepción (<code>src/app/features/general/reception/</code>). Permite registrar el peso y las unidades exactas de la mercancía física que entra.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>5. Una trazabilidad brutal</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Todo movimiento queda registrado en un <strong>Libro Mayor (Ledger)</strong>. El frontend muestra el historial absoluto en <code>src/app/features/admin/traceability-management/</code>, ofreciendo una auditoría perfecta de quién hizo qué y cuándo.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>6. Seguridad de trazabilidad (Inmutabilidad)</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Para garantizar que nadie manipule la base de datos de manera fraudulenta, el backend utiliza firmas <strong>HMAC</strong> y una estructura de <strong>Blockchain</strong> para el sellado criptográfico de los bloques de movimientos de stock.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>7. Privilegios "Elevated" para Alumnos</h3>
+                <div class="item-box">
+                    <p>Se creó el rol especial <strong>ELEVATED</strong>. Este rol permite otorgar temporalmente a un alumno aventajado privilegios adicionales para asistir en el control del economato sin darle el acceso total de <code>CHEF</code> o <code>ADMIN</code>. Se controla mediante <code>role.guard.ts</code>.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>8. Creación de Recetas y Planes Semanales</h3>
+                <div class="item-box">
+                    <p>Se desarrolló un motor completo para <strong>Recetas</strong> (<code>src/app/features/general/recipes/</code>) que calcula en tiempo real mermas y costes. Se integra con los <strong>Planes Semanales</strong>, donde los chefs planifican el menú y el sistema deduce automáticamente qué ingredientes faltan según el stock actual.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>9. Chat IA y Chat Interno</h3>
+                <div class="item-box">
+                    <p><strong>Chat IA (Chef Pío):</strong> Un asistente experto culinario implementado en el <code>mcp-service</code> (NestJS + IA) que responde por streaming (SSE).</p>
+                    <p><strong>Chat Interno / Sincronización:</strong> Uso de WebSockets bidireccionales para comunicación en tiempo real. Si un producto se agota o llega un pedido, la alerta aparece instantáneamente en todas las pantallas de la cocina.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>10. Reportes PDF y Excel descargables</h3>
+                <div class="item-box">
+                    <p>Para la exportación de documentos (como escandallos o pedidos a proveedores), el backend integra <strong>iText 8</strong> para el renderizado seguro de PDFs profesionales y <strong>Apache POI 5.3</strong> para exportar hojas de cálculo limpias.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>11. Tiempo real y ¿Qué pasa si se va la conexión?</h3>
+                <div class="item-box">
+                    <p><span class="tag">Código</span> Al ser una PWA de alto rendimiento, si el WiFi de la cocina se cae, la app no se rompe. Entra en acción el <code>offline-sync.interceptor.ts</code> y el Service Worker: la app encola localmente las acciones del usuario. Cuando la red vuelve, se realiza un <em>Background Sync</em> automático con la base de datos.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>¿Es viable? / Consumo / Mantenimiento</h3>
+                <div class="item-box">
+                    <p><strong>Totalmente viable.</strong> Todo el ecosistema puede correr sobradamente en un servidor local estándar con <strong>4 GB de RAM</strong> gracias al Garbage Collector ZGC y Kafka KRaft. Se mantiene fácilmente mediante un panel interactivo (`install.ps1`) para usuarios sin conocimientos de DevOps.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 4: ACCESIBILIDAD
+             ============================== -->
+        <div id="informe4" class="tab-content">
+            <div class="report-card">
+                <h1>Informe 4: Accesibilidad</h1>
+
+                <h3>1. Puntuación y Metodología</h3>
+                <div class="item-box">
+                    <p><span class="tag">Resultado</span> <strong>81% de Cumplimiento (Nivel AA)</strong> según WCAG 2.1.</p>
+                    <p>Se ha evaluado el HTML semántico, atributos ARIA, contraste, navegación por teclado e internacionalización.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>2. Fortalezas Destacadas</h3>
+                <div class="item-box">
+                    <p><span class="tag">I18n</span> Internacionalización completa en ES, EN, CA con traducciones dinámicas de etiquetas ARIA (aria-labels).</p>
+                    <p><span class="tag">ARIA Live</span> Implementado <code>aria-live="polite"</code> en el Chat de IA para avisar a lectores de pantalla de los nuevos mensajes.</p>
+                    <p><span class="tag">Estructura</span> Uso impecable de HTML semántico (nav, main, aside, article) y jerarquía estricta de encabezados.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>3. Validaciones y Estado</h3>
+                <div class="item-box">
+                    <p><span class="tag">Navegación</span> Todos los interactivos son botones y enlaces nativos navegables con teclado.</p>
+                    <p><span class="tag">PWA</span> Declaración correcta de lang="es" y soporte pleno para aplicaciones web progresivas.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>4. Mejoras Propuestas (Roadmap)</h3>
+                <div class="item-box">
+                    <p><span class="tag">Mejora</span> Implementar <em>Focus Trap</em> (Angular CDK) en modales para retener el foco del teclado y mejorar la usabilidad sin ratón.</p>
+                    <p><span class="tag">Contraste</span> Aumentar la opacidad de los textos atenuados (muted) para cumplir estrictamente el ratio 4.5:1 exigido por WCAG.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 5: ESTUDIO UX/UI
+             ============================== -->
+        <div id="informe5" class="tab-content">
+            <div class="report-card">
+                <h1>Informe 5: Estudio UX/UI</h1>
+
+                <h3>1. Perfiles de Usuario Adaptativos</h3>
+                <div class="item-box">
+                    <p><span class="tag">ADMIN</span> Control total. El diseño visual cambia radicalmente a un tono azul profundo para prevenir errores de contexto operativo, indicando un nivel alto de permisos.</p>
+                    <p><span class="tag">CHEF / USER</span> Interfaz limpia en tonos rojos cálidos (tema por defecto) enfocado en la operativa del día a día de la cocina y el aprendizaje de alumnos.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>2. Patrones de Interacción</h3>
+                <div class="item-box">
+                    <p><span class="tag">Progressive</span> Sidebar colapsable en 3 estados y Dock flotante para utilidades globales accesible desde cualquier pantalla.</p>
+                    <p><span class="tag">Skeletons</span> Se utilizan Skeleton screens en vez de clásicos spinners para reducir la ansiedad de carga de datos.</p>
+                    <p><span class="tag">Contextual</span> Escáner de código de barras nativo y modales enfocados en el detalle progresivo de la información.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>3. Heurísticas de Nielsen</h3>
+                <div class="item-box">
+                    <p><span class="tag">Puntuación</span> <strong>8/10 Heurísticas</strong> cumplidas completamente.</p>
+                    <p>Destaca la visibilidad de estado (badges, toasts) y el mapeo con el mundo real (lotes, mermas, economato). Como mejora a futuro, se recomienda añadir un tour guiado (onboarding) y atajos de teclado avanzados.</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+
+                <h3>4. UX en Tiempo Real</h3>
+                <div class="item-box">
+                    <p><span class="tag">SSE & WS</span> Experiencia fluida y sin recargas visuales molestas. El chat IA transmite palabras token a token (Server-Sent Events), y el sistema lanza notificaciones push asíncronas para el stock (WebSockets).</p>
+                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==============================
+             INFORME 6: AGRADECIMIENTOS
+             ============================== -->
+        <div id="informe6" class="tab-content">
+            <div class="thanks-section" style="margin-top: 0;">
+                <h2>Agradecimientos</h2>
+                <p>Ningún gran proyecto se construye en solitario. Quiero expresar mi más profundo agradecimiento a mis increíbles compañeros de proyecto: <strong>Fran, Javi y Pascual</strong>. Juntos hemos superado los infinitos desafíos técnicos, nos hemos apoyado en los momentos de frustración y hemos celebrado cada pequeña victoria; sin vuestra dedicación, talento y calidad humana, este proyecto no habría sido lo mismo.</p>
+                
+                <!-- Espacio para la imagen de agradecimiento -->
+                <div class="thanks-photo">
+                    [Hueco para foto de equipo / agradecimiento] <br> Sube la imagen aquí
+                </div>
+
+                <p>Asimismo, quiero dar las gracias infinitas al equipo educativo: <strong>Samara, Wilme, Tana, Noemí, Gonzalo y David</strong>. Vuestra paciencia, guía y exigencia me han impulsado a crecer en este sector mucho más allá de lo que creía posible. Finalmente, gracias a los colaboradores del <strong>CIFP Virgen de Candelaria</strong> y a los "clientes del proyecto intermodular" por confiar en nuestra visión, darnos feedback real y brindarnos la oportunidad de dar vida a Smart Economato.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL DIAGRAMA DE GANTT -->
+    <div class="modal-overlay" id="ganttModal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal(event)">&times;</button>
+            <h2 style="color: var(--primary); margin-top: 0;">Cronograma del Proyecto</h2>
+            <div class="modal-gantt-wrapper">
+                <div class="mermaid">
+                    %%{init:{'theme':'default','gantt':{'leftPadding':5}}}%%
+                    gantt
+                        dateFormat  YYYY-MM-DD
+                        axisFormat  %b '%y
+
+                        Coordinación e investigación      :2025-10-01, 2025-12-31
+                        Pruebas de estilos                :2025-10-01, 2025-12-31
+                        Reuniones con cliente y reqs.     :2025-10-01, 2025-12-31
+                        Mockups y estilos definitivos     :2025-10-01, 2025-12-31
+
+                        Desarrollo PMV V.beta             :2026-01-01, 2026-02-28
+                        Ajustes requerimientos cliente    :2026-01-01, 2026-02-28
+                        Impresiones y feedback clientes   :2026-01-01, 2026-02-28
+
+                        Desarrollo completo aplicación    :2026-03-01, 2026-04-30
+                        Pruebas UX/UI integrales          :2026-03-01, 2026-04-30
+                        Preparacion de la presentacion & exposicion :milestone, 2026-04-26, 1d
+
+                        Elaboración de documentación      :2025-10-01, 2026-04-30
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Control de las pestañas (se sincroniza con el móvil)
+        function openTab(tabId, btnElement) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            setTimeout(() => {
+                const t = document.getElementById(tabId);
+                if (t) t.classList.add('active');
+            }, 50);
+            // Marcar activo en el botón pulsado y en su gemelo del otro panel
+            if (btnElement) {
+                const label = btnElement.textContent.trim();
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    if (b.textContent.trim() === label) b.classList.add('active');
+                });
+            }
+            closeMenu();
+        }
+
+        // Lógica del menú hamburguesa en móvil
+        function toggleMenu() {
+            const drawer  = document.getElementById('navTabs');
+            const btn     = document.getElementById('hamburgerBtn');
+            const overlay = document.getElementById('navOverlay');
+            const isOpen  = drawer.classList.toggle('open');
+            btn.classList.toggle('open', isOpen);
+            overlay.classList.toggle('open', isOpen);
+            btn.setAttribute('aria-expanded', String(isOpen));
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        }
+
+        function closeMenu() {
+            ['navTabs','navOverlay'].forEach(id => document.getElementById(id).classList.remove('open'));
+            const btn = document.getElementById('hamburgerBtn');
+            btn.classList.remove('open');
+            btn.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
+
+        // Ocultar barra desktop en móvil
+        function handleNavLayout() {
+            const d = document.getElementById('navTabsDesktop');
+            if (d) d.style.display = window.innerWidth <= 768 ? 'none' : 'flex';
+        }
+        window.addEventListener('resize', handleNavLayout);
+        handleNavLayout();
+
+        // Cambio de tema: Sol y Luna
+        function toggleTheme() {
+            const html = document.documentElement;
+            const sun  = document.getElementById('icon-sun');
+            const moon = document.getElementById('icon-moon');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                sun.style.display  = 'none';
+                moon.style.display = 'block';
+            } else {
+                html.setAttribute('data-theme', 'light');
+                sun.style.display  = 'block';
+                moon.style.display = 'none';
+            }
+        }
+
+        // Abrir y cerrar el cronograma gigante
+        function openModal()  { document.getElementById('ganttModal').classList.add('active'); }
+        function closeModal(e){ if(e) e.stopPropagation(); document.getElementById('ganttModal').classList.remove('active'); }
+
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>
+
+
