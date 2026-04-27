@@ -23,15 +23,7 @@ Para esta plataforma de exposición se han utilizado:
 
 *   **HTML5 / CSS3 (Vanilla):** Diseño premium, responsive y con soporte nativo para modo oscuro/claro.
 *   **JavaScript:** Lógica de navegación fluida y sincronización de componentes.
-*   **Mermaid.js:** Renderizado de diagramas de Gantt y flujos de trabajo.
-*   **Google Fonts:** Tipografía Inter para una estética moderna y profesional.
 
-## 🚀 Cómo visualizarlo
-
-Simplemente abre el archivo principal en cualquier navegador moderno:
-
-1.  Clona el repositorio.
-2.  Abre el archivo `index.html`.
 
 ---
 *Proyecto desarrollado por Lorena para la presentación final de ciclo - 2026.*

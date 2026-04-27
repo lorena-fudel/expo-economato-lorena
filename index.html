@@ -91,8 +91,9 @@
         /* Mi sección de perfil */
         .profile-section{display:flex;gap:2rem;background:var(--bg-card);padding:2.25rem;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;align-items:flex-start;box-shadow:var(--shadow-md);transition:var(--ease);}
         .profile-section:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
-        .profile-photo{width:200px;height:200px;flex-shrink:0;border-radius:50%;border:3px dashed var(--border);background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;text-align:center;padding:1rem;overflow:hidden;transition:var(--ease);}
-        .profile-photo:hover{border-color:var(--primary);}
+        .profile-photo{width:200px;height:200px;flex-shrink:0;border-radius:50%;border:4px solid var(--primary-light);background:var(--primary-light);display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:.85rem;text-align:center;padding:0;overflow:hidden;transition:var(--ease);box-shadow:var(--shadow-sm);}
+        .profile-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+        .profile-photo:hover{border-color:var(--primary);transform:scale(1.03);box-shadow:var(--shadow-md);}
         .profile-info h1{font-size:2.6rem;font-weight:700;color:var(--primary);letter-spacing:-.03em;line-height:1.15;margin-bottom:.4rem;}
         .profile-info h2{font-size:.9rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.09em;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--border);}
 
@@ -118,14 +119,14 @@
         .thanks-section{background:linear-gradient(135deg,var(--primary-light) 0%,var(--bg-card) 100%);padding:2.5rem;border-radius:var(--radius-lg);border:1px solid var(--border);margin-bottom:1.5rem;text-align:center;box-shadow:var(--shadow-md);transition:var(--ease);}
         .thanks-section:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
         .thanks-section h2{font-size:1.6rem;font-weight:700;color:var(--primary);margin-bottom:1rem;}
-        .thanks-photo{width:100%;max-width:580px;height:260px;background:var(--bg-card);border:2px dashed var(--primary);border-radius:var(--radius-md);margin:1.25rem auto;display:flex;align-items:center;justify-content:center;color:var(--primary);font-weight:600;font-size:.95rem;transition:var(--ease);}
-        .thanks-photo:hover{background:var(--primary-light);}
+        .thanks-photo{width:100%;max-width:580px;margin:1.25rem auto;transition:var(--ease);}
+        .thanks-photo:hover{transform:translateY(-3px);}
 
         /* Ventanas modales */
         .modal-overlay{position:fixed;inset:0;background:var(--modal-bg);display:flex;align-items:center;justify-content:center;z-index:2000;opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;}
         .modal-overlay.active{opacity:1;visibility:visible;}
-        .modal-content{background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:2rem;width:95%;max-width:1200px;max-height:90vh;overflow-y:auto;position:relative;transform:scale(.92) translateY(12px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-xl);}
-        .modal-overlay.active .modal-content{transform:scale(1) translateY(0);}
+        .modal-content{background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border);padding:2rem;width:95%;max-width:1200px;max-height:90vh;overflow-y:auto;position:relative;transform:translateY(12px);transition:transform .35s cubic-bezier(.34,1.56,.64,1);box-shadow:var(--shadow-xl);}
+        .modal-overlay.active .modal-content{transform:translateY(0);}
         .close-modal{position:absolute;top:14px;right:18px;background:var(--accent-bg);border:1px solid var(--border);border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;color:var(--text-muted);display:flex;align-items:center;justify-content:center;transition:var(--ease);}
         .close-modal:hover{background:#fee2e2;color:#ef4444;border-color:#fca5a5;transform:scale(1.2) rotate(90deg);}
 
@@ -136,6 +137,26 @@
         .report-card h3::before{content:"";display:inline-block;width:4px;height:18px;background:linear-gradient(180deg,var(--primary),var(--primary-dark));border-radius:99px;flex-shrink:0;}
         .item-box{background:var(--accent-bg);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.2rem 1.4rem;margin-bottom:.6rem;transition:var(--ease);}
         .item-box:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:var(--primary);}
+        
+        /* === ESTILOS UNIFORMES PARA TODAS LAS IMÁGENES === */
+        .item-box img, .app-screenshot img, .thanks-photo img, .evidence-img, .evidence-placeholder img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            object-position: top center;
+            border-radius: var(--radius-md);
+            display: block;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            transition: var(--ease);
+            background: var(--bg-card);
+        }
+        .item-box img { margin-top: 1.25rem; }
+        .thanks-photo img { height: auto; object-fit: contain; }
+        .item-box img:hover, .app-screenshot img:hover, .thanks-photo img:hover, .evidence-img:hover, .evidence-placeholder img:hover {
+            box-shadow: var(--shadow-md);
+            border-color: var(--primary);
+        }
         .tag{display:inline-block;background:var(--primary);color:#fff;font-size:.7rem;font-weight:700;padding:2px 9px;border-radius:99px;text-transform:uppercase;letter-spacing:.07em;margin-right:8px;}
 
         /* Listado de tecnologías */
@@ -177,12 +198,11 @@
             color: var(--primary);
             background: var(--primary-light);
         }
+        .evidence-placeholder img {
+            margin-top: 0;
+        }
         .evidence-img {
             margin-top: 1rem;
-            width: 100%;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-sm);
         }
 
         /* El menú lateral que sale en el móvil */
@@ -330,16 +350,16 @@
             
             <div class="profile-section">
                 <div class="profile-photo">
-                    [Hueco para foto] <br> Sube tu foto aquí
+                    <img src="imagenes/lorena.png" alt="Foto de Lorena">
                 </div>
                 <div class="profile-info">
                     <h1>Lorena</h1>
                     <h2>Mi Experiencia</h2>
-                    <p>Vengo del mundo laboral, donde he trabajado en equipos multidisciplinares; ahí conocí el mundo del desarrollo y la informática. En los últimos tiempos he querido formarme en este sector ya que desde siempre me ha encantado la informática.</p>
-                    <p>Cuando empecé en 2024 esta formación me sentí en un mundo completamente abstracto donde no entendía NADA. He ido adquiriendo conocimientos e implementándolos en proyectos personales y formativos como este.</p>
-                    <p>Quiero seguir en este mundo, he descubierto que me encanta y quiero llegar a entenderlo "DEL TODO :)". Mi conclusión es que hay mucho mundo informático que aprender y seguiré en el camino.</p>
+                    <p>Este proyecto no es solo el resultado de estos meses de trabajo, sino el cierre de un ciclo de transformación personal. Vengo del mundo laboral, de trabajar en equipos multidisciplinares donde tuve mi primer contacto con el desarrollo y la informática. Aunque siempre me había apasionado la tecnología, fue ahí donde decidí dar el salto profesional.</p>
+                    <p>Al comenzar en 2024, debo confesar que me sentí en un mundo completamente abstracto; no entendía nada. Sin embargo, esa frustración inicial se convirtió en el motor para aprender. He ido adquiriendo conocimientos y aplicándolos en esta aplicación, pasando de la confusión a la creación de una herramienta real y funcional.</p>
+                    <p>Smart Economato representa mi evolución: de ver la informática como algo inalcanzable a convertirla en un camino que quiero recorrer. He descubierto que me encanta este sector y, aunque sé que el aprendizaje en tecnología no termina nunca, estoy decidida a seguir aprendiendo.</p>
                 </div>
-            </div>
+            </div> 
 
             <div class="gantt-section">
                 <h2>Cronograma de Trabajo (Oct 2025 - Abr 2026)</h2>
@@ -379,44 +399,19 @@
                 <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap:16px;">
 
                     <div class="app-screenshot">
-                        <!-- Sube tu imagen a MIOS/imagenes/ y cambia el src -->
-                        <img src="imagenes/captura-1.jpg" alt="Captura inventario 1"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="screenshot-placeholder">
-                            <span>📷</span>
-                            <span>captura-1.jpg</span>
-                            <small>Sube en MIOS/imagenes/</small>
-                        </div>
+                        <img src="imagenes/dashboard.png" alt="Dashboard">
                     </div>
 
                     <div class="app-screenshot">
-                        <img src="imagenes/captura-2.jpg" alt="Captura inventario 2"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="screenshot-placeholder">
-                            <span>📷</span>
-                            <span>captura-2.jpg</span>
-                            <small>Sube en MIOS/imagenes/</small>
-                        </div>
+                        <img src="imagenes/escaner.png" alt="Escáner y registro de productos">
                     </div>
 
                     <div class="app-screenshot">
-                        <img src="imagenes/captura-3.jpg" alt="Captura inventario 3"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="screenshot-placeholder">
-                            <span>📷</span>
-                            <span>captura-3.jpg</span>
-                            <small>Sube en MIOS/imagenes/</small>
-                        </div>
+                        <img src="imagenes/notificacion-tiempo-real.png" alt="Notificaciones y chat en tiempo real">
                     </div>
 
                     <div class="app-screenshot">
-                        <img src="imagenes/captura-4.jpg" alt="Captura inventario 4"
-                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
-                        <div class="screenshot-placeholder">
-                            <span>📷</span>
-                            <span>captura-4.jpg</span>
-                            <small>Sube en MIOS/imagenes/</small>
-                        </div>
+                        <img src="imagenes/inventario..jpg" alt="Modal de producto e inventario">
                     </div>
                 </div>
             </div>
@@ -427,7 +422,7 @@
              ============================== -->
         <div id="informe1" class="tab-content">
             <div class="report-card">
-                <h1>Informe 1: Primeras Fases</h1>
+                <h1>Primeras Fases</h1>
 
                 <h3>1. Definición del problema y alcance</h3>
                 <div class="item-box">
@@ -437,92 +432,69 @@
 
                 <h3>2. Investigación y búsqueda de información</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Se aplicó investigación técnica avanzada para seleccionar un stack de alto rendimiento y bajo consumo (Green IT), desechando arquitecturas tradicionales en favor de Virtual Threads y Zoneless PWA.</p>
-                    <p><span class="tag">Dónde</span> Reflejado en la elección de <strong>Java 25</strong>, <strong>Angular 21 (Zoneless)</strong> y <strong>Kafka KRaft</strong> (sin Zookeeper), visible en el <code>pom.xml</code>, <code>package.json</code> y <code>docker-compose.yml</code>.</p>
+                    <p><span class="tag">Cómo</span> Se aplicó investigación técnica avanzada para seleccionar un stack de alto rendimiento.</p>
+                    <p><span class="tag">Dónde</span> Reflejado en la elección de <strong>Java 25</strong>, <strong>Angular 21 (Zoneless)</strong> y <strong>Kafka</strong>, visible en el <code>pom.xml</code>, <code>package.json</code> y <code>docker-compose.yml</code>.</p>
                 </div>
 
-                <h3>3. Investigación aplicada y decisiones justificadas</h3>
+                <h3>3. Innovación, mejoras sobre lo típico</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Se adoptó una arquitectura de "Servicios Satélite Políglotas". En lugar de forzar a Java a procesar IA o series temporales, se usan herramientas específicas para cada carga de trabajo.</p>
-                    <p><span class="tag">Dónde</span> Creación del <code>mcp-service</code> (NestJS) para la IA y el <code>predictor-service</code> (Python/FastAPI) para el análisis de datos de series temporales.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
-                </div>
-
-                <h3>4. Innovación, mejoras sobre lo típico</h3>
-                <div class="item-box">
-                    <p><span class="tag">Cómo</span> Implementación de predicción algorítmica de demanda (Prophet), un chat con IA experta ("Chef Pío" vía SSE), trazabilidad inmutable mediante <em>Blockchain/Ledger</em>, y notificaciones en tiempo real.</p>
+                    <p><span class="tag">Cómo</span> Implementación de predicción algorítmica de demanda (con meta/facebook prophet), un chat con IA experta ("Chef Pío"), trazabilidad inmutable mediante <em>Blockchain/Ledger</em>, y notificaciones en tiempo real.</p> 
                     <p><span class="tag">Dónde</span> En el backend dentro de la capa <code>domain</code> (Ledger con HMAC), en el <code>predictor-service</code>, y en el frontend a través del <code>ai-chat.service.ts</code> y el <code>websocket.service.ts</code>.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                    <div class="evidence-placeholder"><img src="imagenes/chef-pio.png" alt=""></div>
                 </div>
 
-                <h3>5. Emprendimiento/viabilidad</h3>
+                <h3>4. Emprendimiento/viabilidad</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Infraestructura optimizada para hardware modesto (4GB RAM) y un instalador interactivo <code>install.ps1</code> que reduce a cero la fricción comercial del despliegue en clientes finales.</p>
+                    <p><span class="tag">Cómo</span> Infraestructura optimizada y un instalador interactivo <code>install.ps1</code> que reduce a cero la fricción comercial del despliegue en clientes finales pudiendo hacerlo ellos mismo con minimos conocimientos y siguiendo los pasos que te indica el instalador.</p>
                     <p><span class="tag">Dónde</span> Límites de recursos (<code>limits: memory</code>) definidos estrictamente en el <code>docker-compose.yml</code> y lógica de autoconfiguración en <code>install.ps1</code>.</p>
-                   
+                    
                 </div>
 
-                <h3>6. Transacción/concurrencia</h3>
+                <h3>5. Transacción/concurrencia</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Patrón CQRS básico separando bases de datos de lectura y escritura para soportar concurrencia masiva en inventario.</p>
+                    <p><span class="tag">Cómo</span> Patrón CQRS básico separando bases de datos de lectura y escritura para soportar concurrencia en inventario, siempre se van a registrar los datos primero en una base de datos transaccional y luego se reflejaran en la base de datos de lectura por lo que no habra problemas de concurrencia.</p>
                     <p><span class="tag">Dónde</span> En el <code>docker-compose.yml</code> (servicios <code>postgres</code> y <code>postgres-replica</code>) y en la configuración de Spring Boot (<code>DB_WRITER_URL</code> y <code>DB_READER_URL</code>).</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                    
                 </div>
 
-                <h3>7. Frontend / Estructura</h3>
-                <div class="item-box">
-                    <p><span class="tag">Cómo</span> PWA de última generación usando "Standalone Components", Lazy Loading y detección de cambios sin Zone.js (Zoneless).</p>
-                    <p><span class="tag">Dónde</span> Estructura modular estricta en el frontend: <code>src/app/core/</code>, <code>src/app/features/</code> y <code>src/app/shared/</code>.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
-                </div>
-
-                <h3>8. Frontend UX/UI</h3>
+                <h3>6. Frontend UX/UI</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Diseño reactivo con modo oscuro/claro nativo, animaciones entre rutas, PWA instalable e internacionalización (ngx-translate).</p>
                     <p><span class="tag">Dónde</span> Gestión de tokens semánticos en <code>styles.css</code>, transiciones en <code>route-animations.ts</code>, y servicios como <code>theme.service.ts</code> y <code>language.service.ts</code>.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                    <div class="evidence-placeholder"><img src="imagenes/modo-claro.png" alt=""></div>
                 </div>
 
-                <h3>9. Accesibilidad y responsive</h3>
+                <h3>7. Accesibilidad y responsive</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Componentes de interfaz flexibles que se adaptan desde pantallas táctiles de cocina (tablets) hasta paneles de administración en monitores grandes.</p>
                     <p><span class="tag">Dónde</span> Diseño <em>mobile-first</em> en los archivos CSS de la capa <code>features/general/</code> y componentes fluidos en <code>shared/components/layout/</code>.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                   
                 </div>
 
-                <h3>10. Consumo de API/estado</h3>
+                <h3>8. Consumo de API/estado</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Gestión centralizada de peticiones HTTP, sincronización offline y reactividad con RxJS.</p>
-                    <p><span class="tag">Dónde</span> En la carpeta <code>src/app/core/interceptors/</code>, destacando el <code>offline-sync.interceptor.ts</code> y el <code>errorHandling.interceptor.ts</code>.</p>
-                    
+                    <p><span class="tag">Cómo</span> Gestión centralizada de peticiones HTTP y reactividad con RxJS los datos se evidencian al momento de cambiarlos.</p>
+                    <p><span class="tag">Dónde</span> En la carpeta <code>src/app/core/interceptors/</code>, destacando el <code>errorHandling.interceptor.ts</code>.</p>
                 </div>
 
-                <h3>11. Calidad del código</h3>
+                <h3>9. Calidad del código</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Separación de responsabilidades con Arquitectura Hexagonal en backend y servicios <em>Singleton</em> puramente reactivos en frontend.</p>
                     <p><span class="tag">Dónde</span> Backend estructurado en <code>domain/</code>, <code>application/</code> e <code>infrastructure/</code>. Frontend regido por convenciones estrictas en <code>angular.json</code> y <code>tsconfig.json</code>.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                   
                 </div>
 
-                <h3>12. Pruebas</h3>
-                <div class="item-box">
-                    <p><span class="tag">Cómo</span> Cobertura de pruebas unitarias y de integración utilizando bases de datos efímeras en contenedores para garantizar realismo.</p>
-                    <p><span class="tag">Dónde</span> Uso de <strong>Vitest</strong> en el frontend (<code>ng test</code>) y <strong>JUnit 5 + Testcontainers + JaCoCo</strong> en el backend (<code>mvn test</code>).</p>
-                    
-                </div>
-
-                <h3>13. Documentación técnica</h3>
+                <h3>10. Documentación técnica</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Documentación viva y autogenerada de la API interactiva, más diagramas de arquitectura.</p>
                     <p><span class="tag">Dónde</span> Interfaces disponibles en <code>/scalar</code> y <code>/v3/api-docs</code>. READMEs con diagramas <em>Mermaid</em> integrados en la raíz de ambos proyectos.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
+                    
                 </div>
 
-                <h3>14. Infraestructura y despliegues</h3>
+                <h3>11. Infraestructura y despliegues</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Despliegue reproducible y seguro tras un Reverse Proxy (Nginx) y orquestación integral mediante Docker Compose, inyectando secretos en tiempo de ejecución.</p>
                     <p><span class="tag">Dónde</span> Archivo <code>.env</code> autogenerado, <code>nginx/reverse-proxy.conf</code>, <code>Dockerfile</code> multi-stage en front y back.</p>
-                    <div class="evidence-placeholder"><img src="" alt=""></div>
                 </div>
             </div>
         </div>
@@ -599,11 +571,6 @@
                         <div class="stack-card-name">Kafka KRaft</div>
                         <div class="stack-card-role">Mensajería Async</div>
                     </div>
-                    <div class="stack-card">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" alt="SQLite">
-                        <div class="stack-card-name">SQLite</div>
-                        <div class="stack-card-role">Outbox Pattern</div>
-                    </div>
                 </div>
 
                 <div class="stack-section-title">Infraestructura & DevOps</div>
@@ -629,30 +596,6 @@
                         <div class="stack-card-role">Control versiones</div>
                     </div>
                 </div>
-
-                <div class="stack-section-title">Seguridad & Calidad</div>
-                <div class="stack-grid">
-                    <div class="stack-card">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/junit/junit-original.svg" alt="JUnit">
-                        <div class="stack-card-name">JUnit 5</div>
-                        <div class="stack-card-role">Tests Backend</div>
-                    </div>
-                    <div class="stack-card">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" alt="Maven">
-                        <div class="stack-card-name">Maven + JaCoCo</div>
-                        <div class="stack-card-role">Build + Cobertura</div>
-                    </div>
-                    <div class="stack-card">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" alt="npm">
-                        <div class="stack-card-name">npm / Vitest</div>
-                        <div class="stack-card-role">Tests Frontend</div>
-                    </div>
-                    <div class="stack-card">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/powershell/powershell-original.svg" alt="PowerShell">
-                        <div class="stack-card-name">PowerShell</div>
-                        <div class="stack-card-role">Instalador auto</div>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -661,13 +604,13 @@
              ============================== -->
         <div id="informe2" class="tab-content">
             <div class="report-card">
-                <h1>Informe 2: Fase de Desarrollo</h1>
+                <h1>Fase de Desarrollo</h1>
 
                 <h3>1. Arquitectura (Capas, modularidad y acoplamiento)</h3>
                 <div class="item-box">
-                    <p><span class="tag">Cómo</span> Se utilizó el patrón de <strong>Arquitectura Hexagonal (Ports & Adapters)</strong> para crear un núcleo de negocio totalmente agnóstico e independiente de frameworks tecnológicos.</p>
-                    <p><span class="tag">Dónde</span> Backend monolito ubicado en <code>inventory-service/src/main/java/com/economato/inventory/</code> separado estrictamente en <code>domain</code> (núcleo), <code>application</code> (puertos) e <code>infrastructure</code> (adaptadores in/out).</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <p><span class="tag">Cómo</span> Se utilizó el patrón de <strong>Arquitectura Hexagonal</strong> para crear un núcleo de negocio totalmente agnóstico e independiente de frameworks tecnológicos.</p>
+                   
+                    
                 </div>
 
                 <h3>2. Patrones y diseño</h3>
@@ -679,49 +622,47 @@
                         <br>- <em>Outbox</em>: Base de datos SQLite local en el <code>predictor-service</code>.
                         <br>- <em>Resiliencia</em>: Resilience4j inyectado en llamadas a dependencias.
                     </p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                
                 </div>
 
                 <h3>3. Modelado del dominio</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Las entidades (<code>Product</code>, <code>Recipe</code>, <code>Order</code>) son puras. No tienen dependencias de JPA u ORMs. Las reglas de negocio (mermas, fechas FEFO, alérgenos) se procesan estrictamente en este nivel.</p>
                     <p><span class="tag">Dónde</span> En la capa <code>domain/model/</code>. Todo modelo de persistencia JPA reside exclusivamente en la capa <code>infrastructure</code>.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                   
                 </div>
 
                 <h3>4. API (REST, versionado, contratos)</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Diseño RESTful maduro, contratos bien definidos mediante DTOs y mapeos bidireccionales, extendido con protocolos modernos para requerimientos específicos (SSE y WebSockets).</p>
                     <p><span class="tag">Dónde</span> Controladores ubicados en <code>infrastructure/adapter/in/web/</code>. Conversión gestionada por MapStruct (<code>application/mapper/</code>). Documentación autogenerada por SpringDoc OpenAPI.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                
                 </div>
 
                 <h3>5. Seguridad y Autenticación</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Sistema híbrido. Autenticación robusta (JWT) con capa adicional de revocación (Blacklist en Redis) para invalidar sesiones de forma inmediata. Rotación obligatoria de contraseña inicial.</p>
                     <p><span class="tag">Dónde</span> Inyección criptográfica (<code>JWT_SECRET</code>) desde el <code>.env</code>. Caché de invalidación en <code>redis:7-alpine</code>. Interceptor <code>auth.interceptor.ts</code> inyectando <em>Bearer tokens</em> en el frontend.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
                 </div>
 
                 <h3>6. Autorización y Roles</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Principio de mínimo privilegio con seguridad dual. Las vistas se ocultan en el front y se deniegan a nivel de controlador de backend.</p>
                     <p><span class="tag">Dónde</span> Frontend (<code>role.guard.ts</code>) evalúa roles (<code>ADMIN</code>, <code>CHEF</code>, <code>ELEVATED</code>, <code>USER</code>). Backend valida con anotaciones <code>@PreAuthorize("hasRole('ADMIN')")</code> en los endpoints.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/roles-usuarios.png" alt="">
                 </div>
 
-                <h3>7. Validación de datos backend</h3>
+                <h3>7. Validación de datos backend</h3> 
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Validación preventiva y compleja en la capa de frontera (Application / DTOs), con mensajes limpios que el frontend puede traducir.</p>
                     <p><span class="tag">Dónde</span> Anotaciones de Jakarta Validation (<code>@NotNull</code>, <code>@Size</code>, etc.) en clases dentro de <code>application/dto/</code>.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
                 </div>
 
                 <h3>8. Gestión de errores</h3>
                 <div class="item-box">
                     <p><span class="tag">Cómo</span> Interceptación global de excepciones transformándolas en respuestas estándar (Problem Details RFC 7807), ocultando trazas de pila (stacktraces) por seguridad.</p>
                     <p><span class="tag">Dónde</span> Clase anotada con <code>@ControllerAdvice</code> (o <code>GlobalExceptionHandler</code>) en la capa web del backend. En front: <code>errorHandling.interceptor.ts</code>.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/error-sistema (2).png" alt=""> 
                 </div>
             </div>
         </div>
@@ -736,74 +677,66 @@
                 <h3>1. La Idea Inicial: Solución Digital de Inventario</h3>
                 <div class="item-box">
                     <p>El requerimiento principal era digitalizar la entrada y salida de mercancía. Sin embargo, la aplicación evolucionó hasta convertirse en un ecosistema completo para escuelas culinarias que no solo registra stock, sino que predice, asiste y audita todo el flujo de la cocina.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
 
                 <h3>2. Scanner para recepción de mercancías</h3>
                 <div class="item-box">
                     <p><span class="tag">Código</span> Implementado en el frontend usando la librería <code>@zxing/browser</code> y <code>@zxing/library</code>. Se encuentra en el módulo <code>src/app/features/general/barcode-scanner/</code>. Permite usar la cámara del dispositivo para escanear códigos de barras e identificar productos al instante.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/escaner.png" alt="">
                 </div>
 
                 <h3>3. Controlador del stock</h3>
                 <div class="item-box">
-                    <p><span class="tag">Código</span> Gestionado centralmente por el <code>inventory-service</code> (backend Java) utilizando principios FEFO. En el frontend, la interfaz reside en <code>src/app/features/admin/stock-management/</code>.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <p><span class="tag">Código</span> Gestionado centralmente por el <code>inventory-service</code> (backend Java) utilizando principios  (first expire first out). En el frontend, la interfaz reside en <code>src/app/features/admin/stock-management/</code>.</p>
+                    <img src="imagenes/fifo.png" alt="">
                 </div>
 
                 <h3>4. Pesaje de productos (Recepción)</h3>
                 <div class="item-box">
                     <p><span class="tag">Código</span> Integrado de manera ágil en el módulo de recepción (<code>src/app/features/general/reception/</code>). Permite registrar el peso y las unidades exactas de la mercancía física que entra.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                   <img src="imagenes/bascula.png" alt="">
                 </div>
 
                 <h3>5. Una trazabilidad brutal</h3>
                 <div class="item-box">
                     <p><span class="tag">Código</span> Todo movimiento queda registrado en un <strong>Libro Mayor (Ledger)</strong>. El frontend muestra el historial absoluto en <code>src/app/features/admin/traceability-management/</code>, ofreciendo una auditoría perfecta de quién hizo qué y cuándo.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
                 </div>
 
                 <h3>6. Seguridad de trazabilidad (Inmutabilidad)</h3>
                 <div class="item-box">
-                    <p><span class="tag">Código</span> Para garantizar que nadie manipule la base de datos de manera fraudulenta, el backend utiliza firmas <strong>HMAC</strong> y una estructura de <strong>Blockchain</strong> para el sellado criptográfico de los bloques de movimientos de stock.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <p><span class="tag">Código</span> Para garantizar que nadie manipule la base de datos de manera fraudulenta, el backend utiliza una estructura tipo <strong>"Blockchain y Ledger"</strong>"Libro mayor con doble capa de encriptacion"</p>
                 </div>
 
                 <h3>7. Privilegios "Elevated" para Alumnos</h3>
                 <div class="item-box">
                     <p>Se creó el rol especial <strong>ELEVATED</strong>. Este rol permite otorgar temporalmente a un alumno aventajado privilegios adicionales para asistir en el control del economato sin darle el acceso total de <code>CHEF</code> o <code>ADMIN</code>. Se controla mediante <code>role.guard.ts</code>.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/elevated.png" alt="">
                 </div>
 
                 <h3>8. Creación de Recetas y Planes Semanales</h3>
                 <div class="item-box">
                     <p>Se desarrolló un motor completo para <strong>Recetas</strong> (<code>src/app/features/general/recipes/</code>) que calcula en tiempo real mermas y costes. Se integra con los <strong>Planes Semanales</strong>, donde los chefs planifican el menú y el sistema deduce automáticamente qué ingredientes faltan según el stock actual.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/recetas.png" alt="">
                 </div>
 
                 <h3>9. Chat IA y Chat Interno</h3>
                 <div class="item-box">
                     <p><strong>Chat IA (Chef Pío):</strong> Un asistente experto culinario implementado en el <code>mcp-service</code> (NestJS + IA) que responde por streaming (SSE).</p>
                     <p><strong>Chat Interno / Sincronización:</strong> Uso de WebSockets bidireccionales para comunicación en tiempo real. Si un producto se agota o llega un pedido, la alerta aparece instantáneamente en todas las pantallas de la cocina.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/chat-vivo.png" alt="">
                 </div>
 
                 <h3>10. Reportes PDF y Excel descargables</h3>
                 <div class="item-box">
                     <p>Para la exportación de documentos (como escandallos o pedidos a proveedores), el backend integra <strong>iText 8</strong> para el renderizado seguro de PDFs profesionales y <strong>Apache POI 5.3</strong> para exportar hojas de cálculo limpias.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
-                </div>
-
-                <h3>11. Tiempo real y ¿Qué pasa si se va la conexión?</h3>
-                <div class="item-box">
-                    <p><span class="tag">Código</span> Al ser una PWA de alto rendimiento, si el WiFi de la cocina se cae, la app no se rompe. Entra en acción el <code>offline-sync.interceptor.ts</code> y el Service Worker: la app encola localmente las acciones del usuario. Cuando la red vuelve, se realiza un <em>Background Sync</em> automático con la base de datos.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
 
                 <h3>¿Es viable? / Consumo / Mantenimiento</h3>
                 <div class="item-box">
-                    <p><strong>Totalmente viable.</strong> Todo el ecosistema puede correr sobradamente en un servidor local estándar con <strong>4 GB de RAM</strong> gracias al Garbage Collector ZGC y Kafka KRaft. Se mantiene fácilmente mediante un panel interactivo (`install.ps1`) para usuarios sin conocimientos de DevOps.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <p><strong>Totalmente viable.</strong> Todo el ecosistema puede correr en un servidor local estándar con <strong>8 GB de RAM</strong>. Se mantiene fácilmente mediante un panel interactivo (`install.ps1`) para usuarios sin conocimientos de Dev.</p>
+                    <img src="imagenes/despliegue.png" alt="">
                 </div>
             </div>
         </div>
@@ -813,13 +746,13 @@
              ============================== -->
         <div id="informe4" class="tab-content">
             <div class="report-card">
-                <h1>Informe 4: Accesibilidad</h1>
+                <h1>Accesibilidad</h1>
 
                 <h3>1. Puntuación y Metodología</h3>
                 <div class="item-box">
                     <p><span class="tag">Resultado</span> <strong>81% de Cumplimiento (Nivel AA)</strong> según WCAG 2.1.</p>
                     <p>Se ha evaluado el HTML semántico, atributos ARIA, contraste, navegación por teclado e internacionalización.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
 
                 <h3>2. Fortalezas Destacadas</h3>
@@ -827,22 +760,17 @@
                     <p><span class="tag">I18n</span> Internacionalización completa en ES, EN, CA con traducciones dinámicas de etiquetas ARIA (aria-labels).</p>
                     <p><span class="tag">ARIA Live</span> Implementado <code>aria-live="polite"</code> en el Chat de IA para avisar a lectores de pantalla de los nuevos mensajes.</p>
                     <p><span class="tag">Estructura</span> Uso impecable de HTML semántico (nav, main, aside, article) y jerarquía estricta de encabezados.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/catalan.png" alt="">
                 </div>
 
                 <h3>3. Validaciones y Estado</h3>
                 <div class="item-box">
                     <p><span class="tag">Navegación</span> Todos los interactivos son botones y enlaces nativos navegables con teclado.</p>
                     <p><span class="tag">PWA</span> Declaración correcta de lang="es" y soporte pleno para aplicaciones web progresivas.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+            
                 </div>
 
-                <h3>4. Mejoras Propuestas (Roadmap)</h3>
-                <div class="item-box">
-                    <p><span class="tag">Mejora</span> Implementar <em>Focus Trap</em> (Angular CDK) en modales para retener el foco del teclado y mejorar la usabilidad sin ratón.</p>
-                    <p><span class="tag">Contraste</span> Aumentar la opacidad de los textos atenuados (muted) para cumplir estrictamente el ratio 4.5:1 exigido por WCAG.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
-                </div>
+            
             </div>
         </div>
 
@@ -851,13 +779,14 @@
              ============================== -->
         <div id="informe5" class="tab-content">
             <div class="report-card">
-                <h1>Informe 5: Estudio UX/UI</h1>
+                <h1>Estudio UX/UI</h1>
 
                 <h3>1. Perfiles de Usuario Adaptativos</h3>
                 <div class="item-box">
                     <p><span class="tag">ADMIN</span> Control total. El diseño visual cambia radicalmente a un tono azul profundo para prevenir errores de contexto operativo, indicando un nivel alto de permisos.</p>
                     <p><span class="tag">CHEF / USER</span> Interfaz limpia en tonos rojos cálidos (tema por defecto) enfocado en la operativa del día a día de la cocina y el aprendizaje de alumnos.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    <img src="imagenes/dashboard.png" alt="">
+                    <img src="imagenes/panel-chef.png" alt="">
                 </div>
 
                 <h3>2. Patrones de Interacción</h3>
@@ -865,20 +794,20 @@
                     <p><span class="tag">Progressive</span> Sidebar colapsable en 3 estados y Dock flotante para utilidades globales accesible desde cualquier pantalla.</p>
                     <p><span class="tag">Skeletons</span> Se utilizan Skeleton screens en vez de clásicos spinners para reducir la ansiedad de carga de datos.</p>
                     <p><span class="tag">Contextual</span> Escáner de código de barras nativo y modales enfocados en el detalle progresivo de la información.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
 
                 <h3>3. Heurísticas de Nielsen</h3>
                 <div class="item-box">
                     <p><span class="tag">Puntuación</span> <strong>8/10 Heurísticas</strong> cumplidas completamente.</p>
                     <p>Destaca la visibilidad de estado (badges, toasts) y el mapeo con el mundo real (lotes, mermas, economato). Como mejora a futuro, se recomienda añadir un tour guiado (onboarding) y atajos de teclado avanzados.</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
 
                 <h3>4. UX en Tiempo Real</h3>
                 <div class="item-box">
                     <p><span class="tag">SSE & WS</span> Experiencia fluida y sin recargas visuales molestas. El chat IA transmite palabras token a token (Server-Sent Events), y el sistema lanza notificaciones push asíncronas para el stock (WebSockets).</p>
-                    <div class="evidence-placeholder"><span>📸</span> Reemplaza este div por tu etiqueta &lt;img&gt; con la captura de esta funcionalidad</div>
+                    
                 </div>
             </div>
         </div>
@@ -893,7 +822,7 @@
                 
                 <!-- Espacio para la imagen de agradecimiento -->
                 <div class="thanks-photo">
-                    [Hueco para foto de equipo / agradecimiento] <br> Sube la imagen aquí
+                    <img src="imagenes/turing.png" alt="">
                 </div>
 
                 <p>Asimismo, quiero dar las gracias infinitas al equipo educativo: <strong>Samara, Wilme, Tana, Noemí, Gonzalo y David</strong>. Vuestra paciencia, guía y exigencia me han impulsado a crecer en este sector mucho más allá de lo que creía posible. Finalmente, gracias a los colaboradores del <strong>CIFP Virgen de Candelaria</strong> y a los "clientes del proyecto intermodular" por confiar en nuestra visión, darnos feedback real y brindarnos la oportunidad de dar vida a Smart Economato.</p>
@@ -930,6 +859,14 @@
                         Elaboración de documentación      :2025-10-01, 2026-04-30
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- MODAL PARA IMAGENES -->
+    <div class="modal-overlay" id="imageModal" onclick="closeImageModal(event)">
+        <div class="modal-content" style="padding: 0; width: fit-content; max-width: 90vw; background: transparent; border: none; box-shadow: none; display: flex; justify-content: center; align-items: center; overflow: visible;" onclick="event.stopPropagation()">
+            <button class="close-modal" style="top: -15px; right: -10px; background: var(--bg-card); z-index: 10;" onclick="closeImageModal(event)">&times;</button>
+            <img id="modalImage" src="" alt="Vista ampliada" style="max-width: 85vw; max-height: 75vh; width: auto; height: auto; object-fit: contain; border-radius: var(--radius-md); box-shadow: var(--shadow-xl); display: block; background: var(--bg-card);">
         </div>
     </div>
 
@@ -1001,6 +938,27 @@
         // Abrir y cerrar el cronograma gigante
         function openModal()  { document.getElementById('ganttModal').classList.add('active'); }
         function closeModal(e){ if(e) e.stopPropagation(); document.getElementById('ganttModal').classList.remove('active'); }
+
+        // Modal para imágenes
+        function openImageModal(src) {
+            document.getElementById('modalImage').src = src;
+            document.getElementById('imageModal').classList.add('active');
+        }
+        function closeImageModal(e) {
+            if(e) e.stopPropagation();
+            document.getElementById('imageModal').classList.remove('active');
+            setTimeout(() => { document.getElementById('modalImage').src = ''; }, 300);
+        }
+
+        // Asignar evento de click a todas las imágenes para que se abran en el modal
+        document.querySelectorAll('.app-screenshot img, .evidence-placeholder img, .item-box img, .thanks-photo img').forEach(img => {
+            img.style.cursor = 'zoom-in';
+            img.addEventListener('click', function() {
+                if(this.getAttribute('src')) {
+                    openImageModal(this.src);
+                }
+            });
+        });
 
         mermaid.initialize({ startOnLoad: true, theme: 'default' });
     </script>
