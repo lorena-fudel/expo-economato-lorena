@@ -67,9 +67,9 @@
             mix-blend-mode: screen;
         }
 
-        p{color:var(--text-muted);margin-bottom:.75rem;} p:last-child{margin-bottom:0;}
+        p{color:var(--text-muted);margin-bottom:.75rem; overflow-wrap: break-word; word-break: break-word;} p:last-child{margin-bottom:0;}
         strong{color:var(--text-main);}
-        code{background:var(--primary-light);color:var(--primary-dark);font-size:.82em;padding:2px 7px;border-radius:5px;font-family:'Fira Code',monospace;}
+        code{background:var(--primary-light);color:var(--primary-dark);font-size:.82em;padding:2px 7px;border-radius:5px;font-family:'Fira Code',monospace; word-break: break-all;}
 
         /* Barra de navegación */
         .navbar{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:var(--bg-header);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1000;transition:background .35s ease;gap:.75rem;}
@@ -241,6 +241,9 @@
             .stack-grid{grid-template-columns:repeat(auto-fill,minmax(110px,1fr));}
             .report-card,.gantt-section,.profile-section{padding:1.5rem;}
             .navbar{padding:.65rem 1rem;gap:.5rem;}
+
+            /* Ajustar el diagrama al ancho disponible en móviles */
+            .modal-gantt-wrapper .mermaid svg { width: 100% !important; max-width: 100% !important; height: auto !important; }
 
             /* Ocultar tabs del navbar en móvil */
             .tabs{
@@ -705,7 +708,7 @@
 
                 <h3>6. Seguridad de trazabilidad (Inmutabilidad)</h3>
                 <div class="item-box">
-                    <p><span class="tag">Código</span> Para garantizar que nadie manipule la base de datos de manera fraudulenta, el backend utiliza una estructura tipo <strong>"Blockchain y Ledger"</strong>"Libro mayor con doble capa de encriptacion"</p>
+                    <p><span class="tag">Código</span> Para garantizar que nadie manipule la base de datos de manera fraudulenta, el backend utiliza una estructura tipo <strong>"Blockchain y Ledger"</strong> "Libro mayor con doble capa de encriptacion"</p>
                 </div>
 
                 <h3>7. Privilegios "Elevated" para Alumnos</h3>
